@@ -12,7 +12,7 @@ import '/utils/enum.dart';
 import '/utils/navigation.dart';
 import '/utils/network_connection.dart';
 import '/utils/styles/k_colors.dart';
-import 'modules/dashboard/views/dashboard_screen.dart';
+import 'modules/splash/views/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
 
     return ScreenUtilInit(
       //Change the height and Width based on design
-      designSize: const Size(360, 800),
+      designSize: const Size(360, 640),
       minTextAdapt: true,
       builder: (ctx, child) {
         return MaterialApp(
@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const DashboardScreen(),
+      child: const SplashScreen(),
     );
   }
 }
