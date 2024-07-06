@@ -13,7 +13,7 @@ class GlobalButton extends StatelessWidget {
   final Color? btnBackgroundActiveColor;
   final double? textFontSize;
 
-  const GlobalButton({
+  GlobalButton({
     Key? key,
     required this.onPressed,
     required this.buttonText,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '/utils/styles/styles.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'global_text.dart';
 
 class GlobalTextFormField extends StatelessWidget {

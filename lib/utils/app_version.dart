@@ -1,9 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-
 import '/constant/constant_key.dart';
 import '/data_provider/pref_helper.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppVersion {
   static String currentVersion = "";

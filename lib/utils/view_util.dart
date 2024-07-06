@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '/global/widget/global_button.dart';
 import '/global/widget/global_text.dart';
 import '/utils/navigation.dart';
@@ -14,7 +13,7 @@ class ViewUtil {
   }) {
     /**
      * Using ScaffoldMessenger we can easily access
-     * this snackbar from anywhere
+     * this SSLSnackbar from anywhere
      */
 
     return ScaffoldMessenger.of(Navigation.key.currentContext!).showSnackBar(
@@ -108,7 +107,6 @@ class ViewUtil {
           ),
           title: title,
           content: content,
-         
         );
       },
     );

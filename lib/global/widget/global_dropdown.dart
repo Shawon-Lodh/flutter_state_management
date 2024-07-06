@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../utils/styles/styles.dart';
 import 'global_text.dart';
+import '../../utils/styles/styles.dart';
 
 class GlobalDropdown extends StatelessWidget {
   const GlobalDropdown({

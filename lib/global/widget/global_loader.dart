@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '/utils/extension.dart';
 import 'global_text.dart';
 
 class GlobalLoader extends StatelessWidget {
@@ -12,12 +12,13 @@ class GlobalLoader extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-      const  CircularProgressIndicator.adaptive(),
+        centerCircularProgress(),
         SizedBox(width: 10.w),
-        GlobalText(str:text ?? "")
+        GlobalText(str: text ?? "")
       ],
     );
   }
 }
+
 
  

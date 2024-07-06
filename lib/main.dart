@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '/constant/app_url.dart';
 import '/data_provider/pref_helper.dart';
 import '/utils/app_version.dart';
@@ -13,6 +12,9 @@ import '/utils/navigation.dart';
 import '/utils/network_connection.dart';
 import '/utils/styles/k_colors.dart';
 import 'modules/dashboard/views/dashboard_screen.dart';
+import '/utils/mixin/bloc_provider_mixin.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,7 @@ initServices() async {
   await NetworkConnection.instance.internetAvailable();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget with BlocProviderMixin {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,9 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 800),
       minTextAdapt: true,
       builder: (ctx, child) {
-        return MaterialApp(
+      return  MultiBlocProvider(
+        providers: blocProviders(),
+        child: MaterialApp(
           title: 'Flutter_state_management',
           navigatorKey: Navigation.key,
           debugShowCheckedModeBanner: false,
@@ -73,6 +77,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: KColor.primary.color as MaterialColor,
           ),
           home: child,
+         ),
         );
       },
       child: const DashboardScreen(),

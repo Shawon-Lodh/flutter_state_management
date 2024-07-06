@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '/constant/constant_key.dart';
 
 class GlobalText extends StatelessWidget {

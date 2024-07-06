@@ -1,15 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart' as d;
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-
+import '/utils/extension.dart';
 import '/constant/app_url.dart';
 import '/constant/constant_key.dart';
 import '/data_provider/pref_helper.dart';
 import '/global/model/graph_ql_error_response.dart';
-import '/utils/extension.dart';
 import '/utils/navigation.dart';
 import '/utils/view_util.dart';
 
@@ -73,7 +71,7 @@ class ApiClient {
         }
       }
 
-      Map<String, dynamic> params = Map<String, dynamic>();
+      Map<String, dynamic> params = <String, dynamic>{};
       params.addAll(fileMap);
       final data = d.FormData.fromMap(params);
 
@@ -85,7 +83,7 @@ class ApiClient {
       if (response.statusCode == 200) {
         return response;
       } else {
-        _showExceptionSnackBar("Something went wrong");
+        _showExceptionSSLSnackbar("Something went wrong");
         throw Exception();
       }
 
@@ -128,7 +126,7 @@ class ApiClient {
           return response;
         }
       } else {
-        _showExceptionSnackBar("Something went wrong");
+        _showExceptionSSLSnackbar("Something went wrong");
         throw Exception();
       }
 
@@ -150,7 +148,7 @@ class ApiClient {
           PrefHelper.logout();
 
         } else {
-          _showExceptionSnackBar(result.errors[0].message);
+          _showExceptionSSLSnackbar(result.errors[0].message);
         }
       }
         } catch (e) {}
@@ -196,7 +194,7 @@ void _dioErrorHandler(bool isLoaderShowing, DioException error) {
     }
   }
 
-  static _showExceptionSnackBar(String? msg) async {
+  static _showExceptionSSLSnackbar(String? msg) async {
     ViewUtil.SSLSnackbar(msg ?? "");
   }
 }

@@ -4,11 +4,10 @@ import 'dart:developer' as darttools show log;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'
     show AppLocalizations;
-import 'package:intl/intl.dart';
-
 //import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '/constant/constant_key.dart';
 import '/data_provider/pref_helper.dart';
+import 'package:intl/intl.dart';
 
 
 extension ConvertNum on String {
@@ -144,13 +143,11 @@ extension VersionCheck on String {
   }
 }
 
+
 extension WidgetExtention on Widget {
   Widget centerCircularProgress({Color? progressColor}) => Center(
-        child: Container(
-          //using adaptive we can easily show platfrom base indicator
-          child: CircularProgressIndicator.adaptive(
-            backgroundColor: progressColor,
-          ),
+        child: CircularProgressIndicator.adaptive(
+          backgroundColor: progressColor,
         ),
       );
 }

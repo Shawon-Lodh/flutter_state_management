@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -14,11 +13,9 @@ import '/utils/navigation.dart';
 import '/utils/network_connection.dart';
 import '/utils/view_util.dart';
 
-
 class ApiClient {
   final Dio _dio = Dio();
   Map<String, dynamic> _header = {};
-  bool? isPopDialog;
 
   _initDio({Map<String, String>? extraHeader}) async {
     _header = _getHeaders();
@@ -29,7 +26,7 @@ class ApiClient {
     _dio.options = BaseOptions(
       baseUrl: AppUrl.base.url,
       headers: _header,
-      connectTimeout: const Duration(milliseconds: 60 * 1000), //miliseconds
+      connectTimeout: const Duration(milliseconds: 60 * 1000),
       sendTimeout: const Duration(milliseconds: 60 * 1000),
       receiveTimeout: const Duration(milliseconds: 60 * 1000),
     );
@@ -53,29 +50,31 @@ class ApiClient {
     }));
   }
 
-  // Image or file upload using Rest handle.
-  Future requestFormData({
+  Future request({
     required String url,
     required Method method,
     Map<String, dynamic>? params,
-    bool? isPopGlobalDialog,
     Map<String, String>? extraHeaders,
     Options? options,
     void Function(int, int)? onReceiveProgress,
     String? savePath,
     List<File>? files,
     String? fileKeyName,
+    bool isFormData = false,
     required Function(Response response) onSuccessFunction,
   }) async {
     final tokenHeader = <String, String>{
-      HttpHeaders.contentTypeHeader: AppConstant.MULTIPART_FORM_DATA.key
+      if (isFormData)
+        HttpHeaders.contentTypeHeader: AppConstant.MULTIPART_FORM_DATA.key
+      else
+        HttpHeaders.contentTypeHeader: AppConstant.APPLICATION_JSON.key
     };
     if (extraHeaders != null) {
       tokenHeader.addAll(extraHeaders);
     }
     _initDio(extraHeader: tokenHeader);
 
-    if (files != null) {
+    if (files != null && isFormData) {
       params?.addAll({
         "$fileKeyName": files
             .map((item) => MultipartFile.fromFileSync(item.path,
@@ -84,49 +83,16 @@ class ApiClient {
       });
     }
 
-    final data = FormData.fromMap(params!);
-
-    // Handle and check all the status.
-    return clientHandle(
-      url,
-      method,
-      params,
-      data: data,
-      onSuccessFunction: onSuccessFunction,
-    );
-  }
-
-  // Normal Rest API  handle.
-  Future request({
-    required String url,
-    required Method method,
-    Map<String, dynamic>? params,
-    bool? isPopGlobalDialog,
-    String? token,
-    Options? options,
-    void Function(int, int)? onReceiveProgress,
-    String? savePath,
-    Map<String, String>? extraHeaders,
-    required Function(Response response) onSuccessFunction,
-  }) async {
-    //use this for extra header
-    final tokenHeader = <String, String>{
-      //  AppConstant.PUSH_ID.key: PrefHelper.getString(AppConstant.DEVICE_ID.key),
-    };
-
-    if (extraHeaders != null) {
-      tokenHeader.addAll(extraHeaders);
+    FormData? data;
+    if (params != null && isFormData) {
+      data = FormData.fromMap(params);
     }
-
     if (NetworkConnection.instance.isInternet) {
-      // Handle and check all the status.
-      isPopDialog = isPopGlobalDialog;
-      _initDio(extraHeader: tokenHeader);
-      // checkProxy();
       return clientHandle(
         url,
         method,
         params,
+        data: data,
         options: options,
         savePath: savePath,
         onReceiveProgress: onReceiveProgress,
@@ -161,8 +127,7 @@ class ApiClient {
       if (method == Method.POST) {
         response = await _dio.post(
           url,
-          // queryParameters: params,
-          data: data != null ? data : params,
+          data: data ?? params,
         );
       } else if (method == Method.DELETE) {
         response = await _dio.delete(url);
@@ -186,7 +151,6 @@ class ApiClient {
       }
       /**
        * Handle Rest based on response json
-       * So please check in json body there is any status_code or code
        */
       _handleResponse(
         response: response,
@@ -205,21 +169,15 @@ class ApiClient {
   }
 
   Map<String, String> _getHeaders() {
-    final DEVISE_OS =
-        Platform.isAndroid ? AppConstant.ANDROID.key : AppConstant.IOS.key;
-
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: AppConstant.APPLICATION_JSON.key,
       AppConstant.APP_VERSION.key:
           PrefHelper.getString(AppConstant.APP_VERSION.key),
       AppConstant.BUILD_NUMBER.key:
           PrefHelper.getString(AppConstant.BUILD_NUMBER.key),
-      AppConstant.DEVICE_OS.key: DEVISE_OS,
       AppConstant.LANGUAGE.key: PrefHelper.getLanguage() == 1
           ? AppConstant.EN.key
           : AppConstant.BN.key,
-      AppConstant.DEVICE_ID.key:
-          PrefHelper.getString(AppConstant.DEVICE_ID.key),
     };
     String token = PrefHelper.getString(AppConstant.TOKEN.key);
     if (token.isNotEmpty == true) {
@@ -258,6 +216,11 @@ class ApiClient {
                   );
                 }
                 NetworkConnection.instance.apiStack = [];
+              } else {
+                Navigator.of(Navigation.key.currentState!.overlay!.context,
+                        rootNavigator: true)
+                    .pop();
+                ViewUtil.isPresentedDialog = false;
               }
             },
           );
@@ -269,7 +232,7 @@ class ApiClient {
   void _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
-        ViewUtil.SSLSnackbar("Time out delay ");
+        ViewUtil.SSLSnackbar("Time out delay");
         break;
       case DioExceptionType.receiveTimeout:
         ViewUtil.SSLSnackbar("Server is not responded properly");
@@ -291,13 +254,7 @@ class ApiClient {
         ViewUtil.SSLSnackbar("Send timeout error");
         break;
       case DioExceptionType.badResponse:
-        final Map data = json.decode(error.response.toString());
-        if (error.response?.statusCode == 502) {
-          ViewUtil.SSLSnackbar("Something went wrong");
-        } else {
-          _tempErrorHandle(data);
-        }
-
+        _tempErrorHandle(error);
         break;
 
       default:
@@ -310,16 +267,12 @@ class ApiClient {
     required Response response,
     required Function(Response response)? onSuccessFunction,
   }) async {
-    if (response.statusCode == 200) {
+    if ((response.statusCode == 200 || response.statusCode == 201) &&
+        response.data != null) {
       final Map data = json.decode(response.toString());
-      final verifycode = data['status'];
-      int code = int.tryParse(verifycode.toString()) ?? 0;
-      if (code == 200) {
-        if (response.data != null) {
-          return onSuccessFunction!(response);
-        } else {
-          throw Exception("response data is ${response.data}");
-        }
+      int code = int.tryParse(data['status'].toString()) ?? 0;
+      if (code == 200 && response.data != null) {
+        return onSuccessFunction!(response);
       } else if (code == 401) {
         await PrefHelper.setString(AppConstant.TOKEN.key, "");
         // Navigation.pushAndRemoveUntil(
@@ -328,14 +281,21 @@ class ApiClient {
         //   arguments: LoginRegisterOpenFor.normal,
         // );
       } else {
-        //Where error occured then pop the global dialog
-        _tempErrorHandle(data);
+        //Handle error manually 
+        data.toString().log();
+ 
       }
+      return onSuccessFunction!(response);
+    } else {
+      ViewUtil.SSLSnackbar("Something went wrong");
+      throw Exception("Response data is ${response.data}");
     }
   }
 
-  void _tempErrorHandle(dynamic data) async {
-    "data:: $data".log();
- }   
+  void _tempErrorHandle(DioException error) async {
+    final Map data = json.decode(error.response.toString());
+    "_tempErrorHandle :: ${data["message"]}".log();
+  }
 }
+
 
