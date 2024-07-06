@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_state_management/global/widget/global_text.dart';
+import 'package:pokedex/global/widget/global_text.dart';
 
 import '../../utils/styles/styles.dart';
 

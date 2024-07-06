@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_state_management/utils/enum.dart';
+import 'package:pokedex/utils/enum.dart';
 
 class GlobalImageLoader extends StatelessWidget {
   const GlobalImageLoader({

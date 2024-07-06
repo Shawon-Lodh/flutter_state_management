@@ -1,4 +1,4 @@
-import 'package:flutter_state_management/utils/enum.dart';
+import 'package:pokedex/utils/enum.dart';
 
 enum AppUrl {
   base,

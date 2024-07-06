@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       builder: (ctx, child) {
         return MaterialApp(
-          title: 'Flutter_state_management',
+          title: 'pokedex',
           navigatorKey: Navigation.key,
           debugShowCheckedModeBanner: false,
           //localization

@@ -1,4 +1,4 @@
-package com.example.flutter_state_management
+package com.example.pokedex
 
 import io.flutter.embedding.android.FlutterActivity
 

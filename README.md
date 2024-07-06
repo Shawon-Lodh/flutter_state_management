@@ -1,4 +1,4 @@
-# flutter_state_management
+# pokedex
 
 A new Flutter project.
 

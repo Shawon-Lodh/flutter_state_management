@@ -1,6 +1,6 @@
 {
-    "name": "flutter_state_management",
-    "short_name": "flutter_state_management",
+    "name": "pokedex",
+    "short_name": "pokedex",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
