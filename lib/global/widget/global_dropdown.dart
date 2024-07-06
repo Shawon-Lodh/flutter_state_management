@@ -29,28 +29,28 @@ class GlobalDropdown extends StatelessWidget {
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: KColor.fill.color,
+        fillColor: KColor.grayLight.color,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: KColor.enableBorder.color, width: 1.w),
+          borderSide: BorderSide(color: KColor.grayMedium.color, width: 1.w),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: KColor.red.color, width: 1.w),
+          borderSide: BorderSide(color: KColor.primary.color, width: 1.w),
           borderRadius: BorderRadius.circular(12.r),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: KColor.red.color, width: 1.w),
+          borderSide: BorderSide(color: KColor.primary.color, width: 1.w),
           borderRadius: BorderRadius.circular(12.r),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: KColor.divider.color, width: 1.w),
+          borderSide: BorderSide(color: KColor.grayMedium.color, width: 1.w),
         ),
       ),
       isExpanded: true,
       hint: GlobalText(
        str: "$hintText",
-       color: KColor.grey.color,
+       color: KColor.grayMedium.color,
        fontSize: 18.sp,
        fontWeight: FontWeight.w400,
        fontStyle: FontStyle.normal,

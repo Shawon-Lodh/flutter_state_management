@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ThemeData().colorScheme.copyWith(
                   secondary: KColor.secondary.color,
                 ),
-            primarySwatch: KColor.primary.color as MaterialColor,
+            primarySwatch: KColor.primary.swatch,
           ),
           home: child,
         );

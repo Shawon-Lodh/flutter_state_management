@@ -8,7 +8,7 @@ class KTextStyle {
   static TextStyle customTextStyle(
           {double fontSize = 12, fontWeight = FontWeight.normal}) =>
       GoogleFonts.poppins(
-        color: KColor.fromText.color,
+        color: KColor.grayDark.color,
         fontSize: fontSize.sp,
         fontWeight: fontWeight,
       );

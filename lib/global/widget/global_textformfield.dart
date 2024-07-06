@@ -61,7 +61,7 @@ class GlobalTextFormField extends StatelessWidget {
       obscuringCharacter: '*',
       controller: controller,
       textInputAction: textInputAction,
-      cursorColor: KColor.black.color,
+      cursorColor: KColor.grayMedium.color,
       keyboardType: textInputType ?? TextInputType.text,
       onChanged: onChanged,
       maxLength: maxlength,
@@ -99,7 +99,7 @@ class GlobalTextFormField extends StatelessWidget {
         filled: true,
         counterText: "",
 
-        fillColor: KColor.formtextFill.color,
+        fillColor: KColor.grayLight.color,
         suffixIcon: suffixIcon,
         hintStyle: hintStyle ?? KTextStyle.customTextStyle(fontSize: 13.sp),
         border:  OutlineInputBorder(
@@ -113,7 +113,7 @@ class GlobalTextFormField extends StatelessWidget {
           borderSide: BorderSide(color: KColor.primary.color, width: 1.w),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: KColor.red.color, width: 1.w),
+          borderSide: BorderSide(color: KColor.primary.color, width: 1.w),
           borderRadius: BorderRadius.all(
             Radius.circular(
               8.r,
@@ -121,7 +121,7 @@ class GlobalTextFormField extends StatelessWidget {
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: KColor.red.color, width: 1.w),
+          borderSide: BorderSide(color: KColor.primary.color, width: 1.w),
           borderRadius: BorderRadius.all(
             Radius.circular(
               8.r,

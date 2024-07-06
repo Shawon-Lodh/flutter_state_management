@@ -26,7 +26,7 @@ class GlobalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color btnColor = btnBackgroundActiveColor ?? KColor.accent.color;
+    Color btnColor = btnBackgroundActiveColor ?? KColor.primary.color;
 
     return ElevatedButton(
       style: ButtonStyle(
@@ -43,7 +43,7 @@ class GlobalButton extends StatelessWidget {
         ),
         backgroundColor: WidgetStateProperty.resolveWith<Color>(
           (Set<WidgetState> states) =>
-              onPressed != null ? btnColor : KColor.divider.color,
+              onPressed != null ? btnColor : KColor.grayLight.color,
         ),
         elevation: WidgetStateProperty.resolveWith(
           (states) => 0.0,
