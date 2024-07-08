@@ -1,5 +1,6 @@
 enum KAssetName {
   icArrowBackSvg,
+  icBackgroundSvg,
   icChevronLeftSvg,
   icChevronRightSvg,
   icCloseSvg,
@@ -19,6 +20,8 @@ extension AssetsExtension on KAssetName {
     switch (this) {
       case KAssetName.icArrowBackSvg:
         return '$_svgDir/ic_arrow_back.svg';
+      case KAssetName.icBackgroundSvg:
+        return '$_svgDir/ic_background.svg';
       case KAssetName.icChevronLeftSvg:
         return '$_svgDir/ic_chevron_left.svg';
       case KAssetName.icChevronRightSvg:

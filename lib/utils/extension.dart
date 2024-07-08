@@ -2,6 +2,7 @@
 import 'dart:developer' as darttools show log;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'
     show AppLocalizations;
 import 'package:intl/intl.dart';
@@ -239,4 +240,49 @@ extension DateTimeGreater on DateTime {
     }
   }
 }
+
+extension SystemUIOverlayExtension on BuildContext {
+  void setSystemUIOverlay({
+    required bool statusBarVisible,
+    required bool navigationBarVisible,
+    Color? statusBarColor,
+    Brightness? statusBarBrightness,
+    Brightness? statusBarIconBrightness,
+    bool? systemStatusBarContrastEnforced,
+    Color? navigationBarColor,
+    Color? navigationBarDividerColor,
+    Brightness? navigationBarIconBrightness,
+    bool? systemNavigationBarContrastEnforced,
+  }) {
+    if (statusBarVisible && navigationBarVisible) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    } else if (statusBarVisible && !navigationBarVisible) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.top]);
+    } else if (!statusBarVisible && navigationBarVisible) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky, overlays: [SystemUiOverlay.bottom]);
+    } else {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    }
+
+    if (!statusBarVisible) {
+      statusBarColor = Colors.transparent;
+    }
+    if (!navigationBarVisible) {
+      navigationBarColor = Colors.transparent;
+    }
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: statusBarColor,
+      statusBarBrightness: statusBarBrightness,
+      statusBarIconBrightness: statusBarIconBrightness,
+      systemStatusBarContrastEnforced: systemStatusBarContrastEnforced ?? false,
+      systemNavigationBarColor: navigationBarColor,
+      systemNavigationBarDividerColor: navigationBarDividerColor,
+      systemNavigationBarIconBrightness: navigationBarIconBrightness,
+      systemNavigationBarContrastEnforced: systemNavigationBarContrastEnforced ?? false,
+    ));
+  }
+}
+
+
 
